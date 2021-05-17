@@ -1,0 +1,5 @@
+
+- name: destroys the containers
+  lxc_container:
+    name: "{{ inventory_hostname }}"
+    state: absent

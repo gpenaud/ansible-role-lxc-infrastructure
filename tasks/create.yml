@@ -1,0 +1,33 @@
+
+- name: load-in local SSH key path
+  set_fact:
+    my_ssh_key: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+
+- name: create the containers
+  lxc_container:
+    template: debian
+    name: "{{ inventory_hostname }}"
+    state: started
+    container_config:
+    - "lxc.net.0.type = veth"
+    - "lxc.net.0.flags = up"
+    - "lxc.net.0.link = {{ interface_bridge }}"
+    #- "lxc.cgroup.devices.allow=a *:* rmw"
+    container_command: |
+      if [ ! -d ~/.ssh ]; then
+        mkdir ~/.ssh
+        echo "{{ lookup('file', my_ssh_key) }}" | tee -a ~/.ssh/authorized_keys
+        systemctl restart network
+      fi
+
+- name: tries to register lxc ip in facts
+  lxc_container:
+    name: "{{ inventory_hostname }}"
+  register: container_info
+  retries: 10
+  delay: 3
+  until: container_info.lxc_container.ips | length > 0
+
+- name: Register the hosts in the inventory
+  set_fact:
+    ansible_host: "{{ container_info.lxc_container.ips.0 }}"

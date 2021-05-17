@@ -1,0 +1,3 @@
+
+- name: install python on target machines
+  raw: which python3 || (apt --yes update && apt install --yes {{ default_python_packages | join(' ') }})

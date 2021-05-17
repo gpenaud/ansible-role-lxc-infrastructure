@@ -1,0 +1,18 @@
+
+- name: include destroy part of lxc-sandbox role
+  include: destroy.yml
+  when:
+    - action is defined and action == "destroy"
+    - from_scratch is defined and from_scratch == "yes"
+
+- name: include create part of lxc-sandbox role
+  include: create.yml
+  when: action is defined and action == "create"
+
+- name: include ssh part of lxc-sandbox role
+  include: ssh.yml
+  when: action is defined and action == "ssh"
+
+- name: include prepare part of lxc-sandbox role
+  include: prepare.yml
+  when: action is defined and action == "prepare"
