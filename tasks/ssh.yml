@@ -1,7 +1,10 @@
 
-- wait_for:
+- name: waiting for ssh port to be available
+  connection: local
+  wait_for:
     host: "{{ ansible_host }}"
     port: 22
 
 - name: container key is up-to-date locally
+  connection: local
   shell: ssh-keygen -R {{ ansible_host }}; (ssh-keyscan {{ ansible_host }} >> ~/.ssh/known_hosts)

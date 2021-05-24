@@ -1,3 +1,13 @@
 
 - name: install python on target machines
-  raw: which python3 || (apt --yes update && apt install --yes {{ default_python_packages | join(' ') }})
+  raw: which python3 || (apt --yes update && apt install --yes {{ lxc_sandbox_python_packages | join(' ') }})
+
+- name: update the /etc/ssh/sshd_config file
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^UseDNS"
+    line: "UseDNS no"
+    insertafter: EOF
+    state: present
+  notify:
+    - restart ssh

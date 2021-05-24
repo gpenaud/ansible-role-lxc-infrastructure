@@ -1,5 +1,7 @@
 
 - name: destroys the containers
+  connection: local
+  become: yes
   lxc_container:
-    name: "{{ inventory_hostname }}"
+    name: "{{ inventory_hostname_short }}"
     state: absent
