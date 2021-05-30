@@ -14,13 +14,12 @@
     container_config:
     - "lxc.net.0.type = veth"
     - "lxc.net.0.flags = up"
-    - "lxc.net.0.link = {{ lxc_sandbox_interface_bridge }}"
+    - "lxc.net.0.link = {{ lxc_infrastructure_interface_bridge }}"
     #- "lxc.cgroup.devices.allow=a *:* rmw"
     container_command: |
       if [ ! -d ~/.ssh ]; then
         mkdir ~/.ssh
         echo "{{ lookup('file', my_ssh_key) }}" | tee -a ~/.ssh/authorized_keys
-        systemctl restart network
       fi
 
 - name: tries to register lxc ip in facts

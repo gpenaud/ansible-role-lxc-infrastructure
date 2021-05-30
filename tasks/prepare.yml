@@ -1,6 +1,6 @@
 
 - name: install python on target machines
-  raw: which python3 || (apt --yes update && apt install --yes {{ lxc_sandbox_python_packages | join(' ') }})
+  raw: which python3 || (apt --yes update && apt install --yes {{ lxc_infrastructure_python_packages | join(' ') }})
 
 - name: update the /etc/ssh/sshd_config file
   lineinfile:
@@ -11,3 +11,8 @@
     state: present
   notify:
     - restart ssh
+
+- name: install sudo
+  package:
+    name: sudo
+    update_cache: yes

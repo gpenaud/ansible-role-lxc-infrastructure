@@ -1,4 +1,4 @@
-
+---
 - name: include destroy part of lxc-infrastructure role
   include: destroy.yml
   when:

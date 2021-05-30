@@ -1,5 +1,7 @@
 
-lxc_sandbox_interface_bridge: lxc-bridge
-lxc_sandbox_python_packages:
+lxc_infrastructure_interface_bridge: lxc-bridge
+lxc_infrastructure_python_packages:
   - python3
   - python3-apt
+  - python3-certifi
+lxc_infrastructure_user_ssh_dir: "/home/{{ lookup('env', 'USER') }}/.ssh"
